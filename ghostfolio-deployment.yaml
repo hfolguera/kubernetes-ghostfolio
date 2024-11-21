@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghostfolio
+  namespace: ghostfolio
+  labels:
+    app: ghostfolio
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: ghostfolio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ghostfolio
+    spec:
+      containers:
+      - image: docker.io/ghostfolio/ghostfolio:latest
+        name: ghostfolio
+        env:
+        # - name: POSTGRES_DB
+        #   value: ghostfolio
+        # - name: POSTGRES_USER
+        #   value: postgres
+        # - name: POSTGRES_PASSWORD
+        #   value: fLlh7HVmCY*j7A
+        - name: DATABASE_URL
+          value: postgresql://ghostfolio:welcome1@postgres.postgres.svc.calfolguera.com/ghostfolio?connect_timeout=300&sslmode=prefer
+        - name: ACCESS_TOKEN_SALT
+          value: rAnDoM12345
+        - name: JWT_SECRET_KEY
+          value: Rand0m12345
+        - name: REDIS_HOST
+          value: redis.redis.svc.calfolguera.com
+        - name: REDIS_PORT
+          value: "6379"
+        ports:
+        - containerPort: 3333
+          name: ghostfolio
