@@ -21,6 +21,7 @@ spec:
       containers:
       - image: docker.io/ghostfolio/ghostfolio:latest
         name: ghostfolio
+        imagePullPolicy: Always
         env:
         # - name: POSTGRES_DB
         #   value: ghostfolio
